@@ -9,7 +9,8 @@ from alembic import context
 from app.core.base_models import Base
 from app.core.config import settings
 
-# TODO import all models here
+from app.modules.accounting import models as accounting_models
+from app.modules.users import models as users_models
 
 config = context.config
 
