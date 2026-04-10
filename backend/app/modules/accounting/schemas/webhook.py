@@ -8,7 +8,7 @@ from app.core.config import settings
 
 
 class WebhookPayload(BaseModel):
-    transaction_id: str
+    transaction_id: UUID
     user_id: UUID
     account_id: UUID
     amount: Decimal
