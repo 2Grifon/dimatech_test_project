@@ -37,7 +37,6 @@ def now() -> datetime:
     return datetime.now(timezone.utc)
 
 
-# Фиксированные UUID — чтобы account мог ссылаться на user
 USER_ID = uuid.uuid4()
 ADMIN_ID = uuid.uuid4()
 ACCOUNT_ID = uuid.uuid4()
