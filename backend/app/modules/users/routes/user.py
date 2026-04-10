@@ -15,10 +15,10 @@ async def get_me(
 
 
 @router.get("/me/accounts")
-async def get_my_accounts(service: UserServiceDep):
-    return await service.get_accounts()
+async def get_my_accounts(service: UserServiceDep, current_user: CurrentUserDep):
+    return await service.get_accounts(current_user)
 
 
 @router.get("/me/payments")
-async def get_my_payments(service: UserServiceDep):
-    return await service.get_payments()
+async def get_my_payments(service: UserServiceDep, current_user: CurrentUserDep):
+    return await service.get_payments(current_user)
