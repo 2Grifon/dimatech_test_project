@@ -1,4 +1,4 @@
-from typing import Annotated
+from typing import Annotated, Sequence
 
 from fastapi import Depends
 from sqlalchemy import select
@@ -13,11 +13,11 @@ class UserService:
     def __init__(self, session: SessionDep) -> None:
         self.session = session
 
-    async def get_accounts(self, user: User):
+    async def get_accounts(self, user: User) -> Sequence[Account]:
         result = await self.session.execute(select(Account).where(Account.user_id == user.id))
         return result.scalars().all()
 
-    async def get_payments(self, user: User):
+    async def get_payments(self, user: User) -> Sequence[Payment]:
         result = await self.session.execute(select(Payment).where(Payment.user_id == user.id))
         return result.scalars().all()
 
