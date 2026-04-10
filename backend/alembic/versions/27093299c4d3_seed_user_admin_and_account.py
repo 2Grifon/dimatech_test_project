@@ -6,13 +6,12 @@ Create Date: 2026-04-10 15:26:40.306781
 
 Default credentials
 
-User:  user@example.com  / check .env for password
-Admin: admin@example.com / check .env for password
+User:  user@example.com  / userpassword123
+Admin: admin@example.com / adminpassword123
 
 """
 
 from datetime import datetime, timezone
-import os
 from typing import Sequence, Union
 import uuid
 
@@ -59,7 +58,7 @@ def upgrade() -> None:
             {
                 "id": USER_ID,
                 "email": "user@example.com",
-                "hashed_password": password_hash.hash(os.getenv("MOCK_USER_PASSWORD")),
+                "hashed_password": password_hash.hash("userpassword123"),
                 "full_name": "Test User",
                 "is_active": True,
                 "role": "user",
@@ -69,7 +68,7 @@ def upgrade() -> None:
             {
                 "id": ADMIN_ID,
                 "email": "admin@example.com",
-                "hashed_password": password_hash.hash(os.getenv("MOCK_ADMIN_PASSWORD")),
+                "hashed_password": password_hash.hash("adminpassword123"),
                 "full_name": "Test Admin",
                 "is_active": True,
                 "role": "admin",

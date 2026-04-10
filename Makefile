@@ -55,7 +55,13 @@ autogenerate:
 
 upgrade:
 	docker exec -it $(app_name)_backend alembic upgrade head
-
+	
+upgrade-local:
+	cd backend && \
+	POSTGRES_HOST=localhost POSTGRES_PORT=5432 POSTGRES_USER=postgres \
+	POSTGRES_PASSWORD=postgres POSTGRES_DB=postgres \
+	alembic upgrade head
+	
 downgrade:
 	docker exec -it $(app_name)_backend alembic downgrade -1
 
