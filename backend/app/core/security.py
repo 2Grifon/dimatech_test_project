@@ -8,15 +8,7 @@ from pwdlib.hashers.bcrypt import BcryptHasher
 
 from app.core.config import settings
 
-password_hash = PasswordHash(
-    (
-        Argon2Hasher(),
-        BcryptHasher(),
-    )
-)
-
-
-ALGORITHM = "HS256"
+password_hash = PasswordHash((Argon2Hasher(), BcryptHasher()))
 
 
 def create_access_token(
@@ -29,7 +21,7 @@ def create_access_token(
         "sub": str(subject),
     }
 
-    return jwt.encode(to_encode, settings.SECRET_KEY, algorithm=ALGORITHM)
+    return jwt.encode(to_encode, settings.SECRET_KEY, algorithm=settings.HASHING_ALGORITHM)
 
 
 def decode_access_token(token: str) -> dict:

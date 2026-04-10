@@ -1,23 +1,24 @@
 import uuid
 from typing import Annotated
 
-import jwt
+from jwt import InvalidTokenError
+from pydantic import ValidationError
 from fastapi import Depends
 from fastapi.security import OAuth2PasswordBearer
 from sqlalchemy import select
-from sqlalchemy.ext.asyncio import AsyncSession
 
-from app.core.db import get_session
+from app.core.config import settings
+from app.core.db import SessionDep
 from app.core.exceptions import UnauthorizedException, ForbiddenException
 from app.core.security import decode_access_token
 from app.modules.users.models import User, UserRole
 
-oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/auth/login")
+oauth2_scheme = OAuth2PasswordBearer(tokenUrl=f"{settings.API_PREFIX}/auth/login")
 
 
 async def get_current_user(
     token: Annotated[str, Depends(oauth2_scheme)],
-    session: Annotated[AsyncSession, Depends(get_session)],
+    session: SessionDep,
 ) -> User:
     try:
         payload = decode_access_token(token)
@@ -27,7 +28,7 @@ async def get_current_user(
                 detail="Could not validate credentials",
                 headers={"WWW-Authenticate": "Bearer"},
             )
-    except jwt.PyJWTError:
+    except (InvalidTokenError, ValidationError):
         raise UnauthorizedException(
             detail="Could not validate credentials",
             headers={"WWW-Authenticate": "Bearer"},
@@ -38,7 +39,7 @@ async def get_current_user(
 
     if user is None:
         raise UnauthorizedException(
-            detail="Could not validate credentials",
+            detail="User not found",
             headers={"WWW-Authenticate": "Bearer"},
         )
 
@@ -49,7 +50,7 @@ async def get_current_admin(
     current_user: Annotated[User, Depends(get_current_user)],
 ) -> User:
     if current_user.role != UserRole.admin:
-        ForbiddenException(detail="Admin privileges required")
+        raise ForbiddenException(detail="Admin privileges required")
     return current_user
 
 
