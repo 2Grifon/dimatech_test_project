@@ -24,9 +24,8 @@ class WebhookPayload(BaseModel):
         # {account_id}{amount}{transaction_id}{user_id}{secret_key}
         ordered_keys = sorted(k for k in data if k != "signature")
         payload_string = "".join(str(data[k]) for k in ordered_keys)
-
         payload_string += settings.PAYMENT_SECRET_KEY
-        print(f"Payload string for signature: '{payload_string}'")
+
         expected = hashlib.sha256(payload_string.encode()).hexdigest()
 
         if signature != expected:
