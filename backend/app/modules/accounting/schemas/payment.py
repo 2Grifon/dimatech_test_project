@@ -6,7 +6,7 @@ from decimal import Decimal
 
 class PaymentRead(BaseModel):
     id: UUID
-    transaction_id: str
+    transaction_id: UUID
 
     user_id: UUID
     account_id: UUID

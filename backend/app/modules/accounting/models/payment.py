@@ -1,7 +1,8 @@
+from decimal import Decimal
 import uuid
 from typing import TYPE_CHECKING
 
-from sqlalchemy import ForeignKey, Numeric, String
+from sqlalchemy import ForeignKey, Numeric
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from app.core.base_models import Base, UUIDMixin, CreatedAtMixin
@@ -13,8 +14,7 @@ if TYPE_CHECKING:
 class Payment(UUIDMixin, CreatedAtMixin, Base):
     __tablename__ = "payment"
 
-    transaction_id: Mapped[str] = mapped_column(
-        String(255),
+    transaction_id: Mapped[uuid.UUID] = mapped_column(
         unique=True,
         nullable=False,
         index=True,
@@ -29,7 +29,7 @@ class Payment(UUIDMixin, CreatedAtMixin, Base):
         nullable=False,
         index=True,
     )
-    amount: Mapped[float] = mapped_column(
+    amount: Mapped[Decimal] = mapped_column(
         Numeric(precision=18, scale=2),
         nullable=False,
     )

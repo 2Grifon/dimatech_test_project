@@ -1,3 +1,4 @@
+from decimal import Decimal
 import uuid
 from typing import TYPE_CHECKING
 
@@ -19,9 +20,9 @@ class Account(UUIDMixin, TimestampMixin, Base):
         nullable=False,
         index=True,
     )
-    balance: Mapped[float] = mapped_column(
+    balance: Mapped[Decimal] = mapped_column(
         Numeric(precision=18, scale=2),
-        default=0,
+        default=Decimal("0.00"),
         nullable=False,
     )
 
