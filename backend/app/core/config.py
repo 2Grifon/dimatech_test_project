@@ -26,6 +26,16 @@ class Settings(BaseSettings):
             f"{self.POSTGRES_DB}"
         )
 
+    # Redis settings
+    REDIS_HOST: str = "redis"
+    REDIS_PORT: int = 6379
+    REDIS_DB: int = 0
+
+    @computed_field
+    @property
+    def REDIS_URL(self) -> str:
+        return f"redis://{self.REDIS_HOST}:{self.REDIS_PORT}/{self.REDIS_DB}"
+
     # API settings
     API_PREFIX: str = "/api"
 
