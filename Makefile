@@ -33,6 +33,7 @@ restart:
 logs:
 	$(docker_compose) logs --tail=1000 -f $(c)
 
+# Bash
 app-logs:
 	$(docker_compose) logs --tail=1000 -f backend $(c)
 
@@ -45,8 +46,11 @@ db-bash:
 psql:
 	docker exec -it $(app_name)_postgres psql -U postgres
 
-#Alembic
+#Shell
+shell:
+	docker exec -it $(app_name)_backend python
 
+#Alembic
 alembic:
 	docker exec -it $(app_name)_backend alembic $(c)
 
