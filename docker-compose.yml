@@ -33,6 +33,15 @@ services:
     networks:
       - main_network
 
+  redis:
+    container_name: dimatech_test_project_redis
+    image: redis:8.10-alpine
+    restart: always
+    ports:
+      - "6379:6379"
+    networks:
+      - main_network
+
 networks:
   main_network:
 volumes:
