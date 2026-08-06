@@ -1,5 +1,6 @@
 from datetime import datetime, timedelta, timezone
 from typing import Any
+import uuid
 
 import jwt
 from pwdlib import PasswordHash
@@ -15,10 +16,11 @@ def create_access_token(
     subject: str | Any,
     expires_delta: timedelta = timedelta(minutes=settings.ACCESS_TOKEN_EXPIRE_MINUTES),
 ) -> str:
-    expire = datetime.now(timezone.utc) + expires_delta
+    expire = (datetime.now(timezone.utc) + expires_delta).timestamp()
     to_encode: dict = {
         "exp": expire,
         "sub": str(subject),
+        "jti": str(uuid.uuid4()),
     }
 
     return jwt.encode(to_encode, settings.SECRET_KEY, algorithm=settings.HASHING_ALGORITHM)

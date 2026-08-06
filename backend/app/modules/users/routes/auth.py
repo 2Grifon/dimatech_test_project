@@ -1,3 +1,4 @@
+# app/modules/users/routes/auth.py
 from typing import Annotated
 
 from fastapi import APIRouter, Depends
@@ -5,8 +6,11 @@ from fastapi.security import OAuth2PasswordRequestForm
 from sqlalchemy import select
 
 from app.core.db import SessionDep
+from app.core.dependencies import oauth2_scheme
 from app.core.exceptions import UnauthorizedException
-from app.core.security import create_access_token, verify_password
+from app.core.redis import RedisDep
+from app.core.security import create_access_token, decode_access_token, verify_password
+from app.core.token_blacklist import blacklist_token
 from app.modules.users.models import User
 from app.modules.users.schemas import Token
 
@@ -35,3 +39,13 @@ async def login(
         await session.commit()
 
     return Token(access_token=create_access_token(user.id), token_type="bearer")
+
+
+@router.post("/logout")
+async def logout(
+    token: Annotated[str, Depends(oauth2_scheme)],
+    redis: RedisDep,
+) -> dict[str, str]:
+    payload = decode_access_token(token)
+    await blacklist_token(redis, jti=payload["jti"], exp=payload["exp"])
+    return {"detail": "Successfully logged out"}
