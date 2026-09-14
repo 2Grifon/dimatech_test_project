@@ -74,3 +74,11 @@ alembic-current:
 
 alembic-history:
 	docker exec -it $(app_name)_backend alembic history
+
+# Environment
+
+install-loc:
+	pip install ./backend
+
+install:
+	pip install .

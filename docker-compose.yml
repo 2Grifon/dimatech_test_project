@@ -42,6 +42,32 @@ services:
     networks:
       - main_network
 
+  rabbitmq:
+    container_name: dimatech_test_project_rabbitmq
+    image: rabbitmq:4.3.4-management-alpine
+    restart: always
+    ports:
+      - "5672:5672"
+      - "15672:15672" # UI для отладки
+    env_file:
+      - .env
+    networks:
+      - main_network
+
+  worker:
+    container_name: dimatech_test_project_worker
+    build: backend/
+    restart: always
+    command: python -m app.worker.consumer
+    volumes:
+      - ./backend:/backend/
+    env_file:
+      - .env
+    depends_on:
+      - postgres
+      - rabbitmq
+    networks:
+      - main_network
 networks:
   main_network:
 volumes:
