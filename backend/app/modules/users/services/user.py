@@ -3,7 +3,7 @@ from typing import Annotated, Sequence
 from fastapi import Depends
 from sqlalchemy import select
 
-from app.core.db import SessionDep
+from app.core.infrastructure import SessionDep
 
 from app.modules.accounting.models import Account, Payment
 from app.modules.users.models.user import User

@@ -1,15 +1,9 @@
+import jwt
+import uuid
 from datetime import datetime, timedelta, timezone
 from typing import Any
-import uuid
-
-import jwt
-from pwdlib import PasswordHash
-from pwdlib.hashers.argon2 import Argon2Hasher
-from pwdlib.hashers.bcrypt import BcryptHasher
 
 from app.core.config import settings
-
-password_hash = PasswordHash((Argon2Hasher(), BcryptHasher()))
 
 
 def create_access_token(
@@ -32,11 +26,3 @@ def decode_access_token(token: str) -> dict:
         settings.SECRET_KEY,
         algorithms=[settings.HASHING_ALGORITHM],
     )
-
-
-def verify_password(plain_password: str, hashed_password: str) -> tuple[bool, str | None]:
-    return password_hash.verify_and_update(plain_password, hashed_password)
-
-
-def get_password_hash(password: str) -> str:
-    return password_hash.hash(password)

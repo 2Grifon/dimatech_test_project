@@ -5,12 +5,16 @@ from fastapi import APIRouter, Depends
 from fastapi.security import OAuth2PasswordRequestForm
 from sqlalchemy import select
 
-from app.core.db import SessionDep
+from app.core.infrastructure import SessionDep, RedisDep
 from app.core.dependencies import oauth2_scheme
 from app.core.exceptions import UnauthorizedException
-from app.core.redis import RedisDep
-from app.core.security import create_access_token, decode_access_token, verify_password
-from app.core.token_blacklist import blacklist_token
+from app.core.security import (
+    verify_password,
+    create_access_token,
+    decode_access_token,
+    blacklist_token,
+)
+
 from app.modules.users.models import User
 from app.modules.users.schemas import Token
 

@@ -1,6 +1,6 @@
 from datetime import datetime, timezone
 
-from app.core.redis import RedisDep
+from app.core.infrastructure import RedisDep
 
 BLACKLIST_KEY_PREFIX = "blacklist:jti:"
 

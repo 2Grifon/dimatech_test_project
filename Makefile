@@ -78,7 +78,7 @@ alembic-history:
 # Environment
 
 install-loc:
-	pip install ./backend
+	pip install -e ./backend
 
 install:
 	pip install .

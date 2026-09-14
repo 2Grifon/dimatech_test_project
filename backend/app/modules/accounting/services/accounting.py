@@ -4,7 +4,7 @@ from fastapi import Depends
 from sqlalchemy import select
 from sqlalchemy.exc import IntegrityError
 
-from app.core.db import SessionDep
+from app.core.infrastructure import SessionDep
 from app.core.exceptions import ConflictException
 
 from app.modules.accounting.models import Account, Payment

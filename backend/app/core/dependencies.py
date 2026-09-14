@@ -9,11 +9,10 @@ from fastapi.security import OAuth2PasswordBearer
 from sqlalchemy import select
 
 from app.core.config import settings
-from app.core.db import SessionDep
+from app.core.infrastructure import SessionDep, RedisDep
 from app.core.exceptions import UnauthorizedException, ForbiddenException
-from app.core.redis import RedisDep
-from app.core.security import decode_access_token
-from app.core.token_blacklist import is_token_blacklisted
+from app.core.security import decode_access_token, is_token_blacklisted
+
 from app.modules.users.models import User, UserRole
 
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl=f"{settings.API_PREFIX}/auth/login")

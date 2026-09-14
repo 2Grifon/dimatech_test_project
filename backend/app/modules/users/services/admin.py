@@ -4,9 +4,10 @@ from uuid import UUID
 from fastapi import Depends
 from sqlalchemy import select, delete
 
-from app.core.db import SessionDep
+from app.core.infrastructure import SessionDep
 from app.core.exceptions import NotFoundException, ConflictException
-from app.core.security import get_password_hash
+from app.core.security.password import get_password_hash
+
 from app.modules.accounting.models.account import Account
 from app.modules.users.models.user import User
 from app.modules.users.schemas.user import UserCreate, UserUpdate
